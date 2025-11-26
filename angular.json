@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "conquer": {
+    "party-games": {
       "projectType": "application",
       "root": "",
       "sourceRoot": "src",
@@ -12,7 +12,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/conquer",
+            "outputPath": "dist/party-games",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -25,7 +25,6 @@
               { "glob": "**/*", "input": ".well-known", "output": "/.well-known" }
             ],
             "styles": [
-              "node_modules/mapbox-gl/dist/mapbox-gl.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -56,8 +55,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
-            "production": { "buildTarget": "conquer:build:production" },
-            "development": { "buildTarget": "conquer:build:development" }
+            "production": { "buildTarget": "party-games:build:production" },
+            "development": { "buildTarget": "party-games:build:development" }
           },
           "defaultConfiguration": "development"
         }

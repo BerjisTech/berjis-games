@@ -1,3 +1,8 @@
 /node_modules
 /dist
 /.angular
+node_modules/
+dist/
+.angular/
+conquer_backup/
+/conquer_backup
