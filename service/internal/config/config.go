@@ -28,10 +28,10 @@ func getenv(k, def string) string {
 
 func Load() Config {
 	return Config{
-		AppName:             getenv("APP_NAME", "berjis-conquer"),
+		AppName:             getenv("APP_NAME", "berjis-games"),
 		Env:                 getenv("APP_ENV", "development"),
 		Port:                getenv("PORT", "8087"),
-		DatabaseURL:         getenv("DATABASE_URL", "postgres://postgres:postgres@localhost:5440/berjis_conquer?sslmode=disable"),
+		DatabaseURL:         getenv("DATABASE_URL", "postgres://postgres:postgres@localhost:5440/berjis_games?sslmode=disable"),
 		CoreAPIBase:         getenv("CORE_API_BASE", "http://localhost:8080"),
 		AllowedOrigins:      getenv("ALLOWED_ORIGINS", "*"),
 		AdminUsers:          getenv("ADMIN_USER_IDS", ""),

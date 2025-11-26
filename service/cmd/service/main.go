@@ -7,11 +7,11 @@ import (
 
 	"github.com/joho/godotenv"
 
-	"github.com/berjistech/berjis-ecosystem/games/conquer/service/internal/config"
-	"github.com/berjistech/berjis-ecosystem/games/conquer/service/internal/db"
-	"github.com/berjistech/berjis-ecosystem/games/conquer/service/internal/migrate"
-	"github.com/berjistech/berjis-ecosystem/games/conquer/service/internal/server"
-	"github.com/berjistech/berjis-ecosystem/games/conquer/service/internal/worker"
+	"github.com/berjistech/berjis-ecosystem/games/games/service/internal/config"
+	"github.com/berjistech/berjis-ecosystem/games/games/service/internal/db"
+	"github.com/berjistech/berjis-ecosystem/games/games/service/internal/migrate"
+	"github.com/berjistech/berjis-ecosystem/games/games/service/internal/server"
+	"github.com/berjistech/berjis-ecosystem/games/games/service/internal/worker"
 )
 
 func main() {
@@ -20,7 +20,7 @@ func main() {
 
 	conn, err := db.Connect(cfg.DatabaseURL)
 	if err != nil {
-		log.Printf("warn: failed to connect to conquer DB: %v", err)
+		log.Printf("warn: failed to connect to games DB: %v", err)
 	} else {
 		runner := migrate.Runner{Dir: "./migrations"}
 		if err := runner.Up(conn); err != nil {

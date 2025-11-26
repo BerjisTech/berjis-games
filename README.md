@@ -88,7 +88,7 @@ games/
 
 ## 🌐 Deployment
 
-The app is designed to be served at `games.berjis.tech` (replacing the previous `conquer.berjis.tech`).
+The app is designed to be served at `games.berjis.tech` (replacing the previous `games.berjis.tech`).
 
 ### Building for Production
 

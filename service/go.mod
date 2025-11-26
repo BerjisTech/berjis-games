@@ -1,4 +1,4 @@
-module github.com/berjistech/berjis-ecosystem/games/conquer/service
+module github.com/berjistech/berjis-ecosystem/games/games/service
 
 go 1.22.0
 
