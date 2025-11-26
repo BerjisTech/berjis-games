@@ -1,0 +1,128 @@
+<div class="min-h-screen p-4 md:p-8">
+  <!-- Sound Toggle Button -->
+  <button
+    (click)="toggleSound()"
+    class="fixed top-4 right-4 z-50 px-4 py-2.5 bg-white/90 backdrop-blur-sm rounded-full shadow-lg hover:shadow-xl transition-all duration-200 font-semibold text-gray-700 text-sm flex items-center gap-2">
+    <span class="text-lg">{{ soundEnabled ? '🔊' : '🔇' }}</span>
+    <span class="hidden sm:inline">{{ soundEnabled ? 'Sound On' : 'Sound Off' }}</span>
+  </button>
+
+  <!-- Header -->
+  <header class="max-w-7xl mx-auto mb-8 md:mb-12">
+    <h1 class="text-4xl md:text-6xl font-black text-white mb-3 drop-shadow-lg">
+      Party Games
+    </h1>
+    <p class="text-base md:text-lg text-white/80 max-w-2xl">
+      Epic games for your next house party. Click any tile to get the full guide.
+    </p>
+  </header>
+
+  <!-- Metro Grid -->
+  <div class="metro-grid max-w-7xl mx-auto grid grid-cols-4 md:grid-cols-6 auto-rows-[14vh] gap-3 md:gap-4">
+    <!-- The Human Knot - Large -->
+    <a [routerLink]="['/game', games[0].slug]"
+       (mouseenter)="onHover()"
+       (click)="onClick()"
+       class="metro-tile col-span-2 row-span-2 md:col-span-3 md:row-span-3"
+       [style.background]="'linear-gradient(135deg, ' + games[0].color + ', ' + adjustColor(games[0].color, -20) + ')'">
+      <div class="metro-tile__content">
+        <div class="metro-tile__icon">{{ games[0].icon }}</div>
+        <div class="metro-tile__info">
+          <h2 class="metro-tile__title">{{ games[0].name }}</h2>
+          <p class="metro-tile__meta">{{ games[0].playerCount }} • {{ games[0].difficulty }}</p>
+        </div>
+      </div>
+    </a>
+
+    <!-- Reverse Charades -->
+    <a [routerLink]="['/game', games[1].slug]"
+       (mouseenter)="onHover()"
+       (click)="onClick()"
+       class="metro-tile col-span-2 row-span-2"
+       [style.background]="'linear-gradient(135deg, ' + games[1].color + ', ' + adjustColor(games[1].color, -20) + ')'">
+      <div class="metro-tile__content">
+        <div class="metro-tile__icon">{{ games[1].icon }}</div>
+        <div class="metro-tile__info">
+          <h2 class="metro-tile__title">{{ games[1].name }}</h2>
+          <p class="metro-tile__meta">{{ games[1].playerCount }}</p>
+        </div>
+      </div>
+    </a>
+
+    <!-- Conducted Story -->
+    <a [routerLink]="['/game', games[2].slug]"
+       (mouseenter)="onHover()"
+       (click)="onClick()"
+       class="metro-tile col-span-2 row-span-1 md:col-span-1 md:row-span-2"
+       [style.background]="'linear-gradient(135deg, ' + games[2].color + ', ' + adjustColor(games[2].color, -20) + ')'">
+      <div class="metro-tile__content">
+        <div class="metro-tile__icon">{{ games[2].icon }}</div>
+        <div class="metro-tile__info">
+          <h2 class="metro-tile__title">{{ games[2].name }}</h2>
+        </div>
+      </div>
+    </a>
+
+    <!-- Silent Line-Up -->
+    <a [routerLink]="['/game', games[3].slug]"
+       (mouseenter)="onHover()"
+       (click)="onClick()"
+       class="metro-tile col-span-2 row-span-1"
+       [style.background]="'linear-gradient(135deg, ' + games[3].color + ', ' + adjustColor(games[3].color, -20) + ')'">
+      <div class="metro-tile__content">
+        <div class="metro-tile__icon">{{ games[3].icon }}</div>
+        <div class="metro-tile__info">
+          <h2 class="metro-tile__title">{{ games[3].name }}</h2>
+        </div>
+      </div>
+    </a>
+
+    <!-- The Counting Game -->
+    <a [routerLink]="['/game', games[4].slug]"
+       (mouseenter)="onHover()"
+       (click)="onClick()"
+       class="metro-tile col-span-2 row-span-2 md:col-span-2 md:row-span-2"
+       [style.background]="'linear-gradient(135deg, ' + games[4].color + ', ' + adjustColor(games[4].color, -20) + ')'">
+      <div class="metro-tile__content">
+        <div class="metro-tile__icon">{{ games[4].icon }}</div>
+        <div class="metro-tile__info">
+          <h2 class="metro-tile__title">{{ games[4].name }}</h2>
+          <p class="metro-tile__meta">{{ games[4].difficulty }}</p>
+        </div>
+      </div>
+    </a>
+
+    <!-- Back Drawing -->
+    <a [routerLink]="['/game', games[5].slug]"
+       (mouseenter)="onHover()"
+       (click)="onClick()"
+       class="metro-tile col-span-2 row-span-1 md:col-span-1 md:row-span-1"
+       [style.background]="'linear-gradient(135deg, ' + games[5].color + ', ' + adjustColor(games[5].color, -20) + ')'">
+      <div class="metro-tile__content">
+        <div class="metro-tile__icon">{{ games[5].icon }}</div>
+        <div class="metro-tile__info">
+          <h2 class="metro-tile__title">{{ games[5].name }}</h2>
+        </div>
+      </div>
+    </a>
+
+    <!-- Word-by-Word Story -->
+    <a [routerLink]="['/game', games[6].slug]"
+       (mouseenter)="onHover()"
+       (click)="onClick()"
+       class="metro-tile col-span-2 row-span-1 md:col-span-1 md:row-span-1"
+       [style.background]="'linear-gradient(135deg, ' + games[6].color + ', ' + adjustColor(games[6].color, -20) + ')'">
+      <div class="metro-tile__content">
+        <div class="metro-tile__icon">{{ games[6].icon }}</div>
+        <div class="metro-tile__info">
+          <h2 class="metro-tile__title">{{ games[6].name }}</h2>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <!-- Footer -->
+  <footer class="max-w-7xl mx-auto mt-8 md:mt-12 text-center text-white/60 text-sm">
+    <p>Perfect for house parties • Display on TV • Play together</p>
+  </footer>
+</div>

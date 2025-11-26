@@ -1,0 +1,124 @@
+<div class="min-h-screen p-4 md:p-8" *ngIf="game">
+  <!-- Back Button -->
+  <button
+    routerLink="/"
+    class="mb-6 px-6 py-3 bg-white/90 backdrop-blur rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 font-bold text-gray-800 flex items-center gap-2">
+    ← Back to Games
+  </button>
+
+  <!-- Game Header -->
+  <div class="max-w-5xl mx-auto bg-white rounded-3xl overflow-hidden shadow-2xl mb-8">
+    <!-- Colored Banner -->
+    <div class="h-48 relative flex items-center justify-center"
+         [style.background]="'linear-gradient(135deg, ' + game.color + ' 0%, ' + adjustColor(game.color) + ' 100%)'">
+      <div class="text-9xl transform hover:scale-110 hover:rotate-12 transition-transform duration-300 drop-shadow-2xl">
+        {{ game.icon }}
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="p-8 md:p-12">
+      <h1 class="text-5xl md:text-6xl font-black text-gray-900 mb-4 leading-tight">
+        {{ game.name }}
+      </h1>
+
+      <div class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-base font-bold shadow-lg mb-8 text-white"
+           [style.background-color]="game.color">
+        <span>⚡</span>
+        <span>{{ game.primarySkill }}</span>
+      </div>
+
+      <!-- Quick Stats -->
+      <div class="grid grid-cols-3 gap-4 mb-8">
+        <div class="bg-gray-50 rounded-2xl p-6 text-center">
+          <div class="text-5xl mb-3">👥</div>
+          <div class="text-sm text-gray-500 font-semibold mb-2">Players</div>
+          <div class="text-lg font-black text-gray-900">{{ game.playerCount }}</div>
+        </div>
+        <div class="bg-gray-50 rounded-2xl p-6 text-center">
+          <div class="text-5xl mb-3">⏱️</div>
+          <div class="text-sm text-gray-500 font-semibold mb-2">Duration</div>
+          <div class="text-lg font-black text-gray-900">{{ game.duration }}</div>
+        </div>
+        <div class="bg-gray-50 rounded-2xl p-6 text-center">
+          <div class="text-5xl mb-3">📊</div>
+          <div class="text-sm text-gray-500 font-semibold mb-2">Difficulty</div>
+          <div class="text-lg font-black text-gray-900">{{ game.difficulty }}</div>
+        </div>
+      </div>
+
+      <!-- Quick Overview -->
+      <div class="bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-8">
+        <h2 class="text-2xl font-black text-gray-900 mb-4 flex items-center gap-3">
+          <span class="text-3xl">📝</span>
+          Quick Overview
+        </h2>
+        <p class="text-lg text-gray-700 leading-relaxed">{{ game.howToPlay }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Instructions Section -->
+  <div class="max-w-5xl mx-auto bg-white rounded-3xl p-8 md:p-12 shadow-2xl mb-8">
+    <h2 class="text-4xl font-black text-gray-900 mb-8 flex items-center gap-3">
+      <span class="text-5xl">📋</span>
+      How to Play
+    </h2>
+    <div class="space-y-3">
+      <div *ngFor="let instruction of game.detailedInstructions; let i = index"
+           class="flex gap-5 p-5 bg-gray-50 rounded-2xl hover:shadow-md transition-all duration-300">
+        <div class="flex-shrink-0 w-10 h-10 rounded-full font-black flex items-center justify-center text-white text-lg shadow-md"
+             [style.background-color]="game.color">
+          {{ i + 1 }}
+        </div>
+        <p class="text-base text-gray-700 leading-relaxed flex-1 self-center">
+          {{ instruction }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pro Tips Section -->
+  <div *ngIf="game.tips && game.tips.length > 0"
+       class="max-w-5xl mx-auto bg-white rounded-3xl p-8 md:p-12 shadow-2xl mb-8">
+    <h2 class="text-4xl font-black text-gray-900 mb-8 flex items-center gap-3">
+      <span class="text-5xl">💡</span>
+      Pro Tips
+    </h2>
+    <div class="space-y-3">
+      <div *ngFor="let tip of game.tips; let i = index"
+           class="flex gap-4 p-5 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-2xl hover:shadow-md transition-all duration-300">
+        <div class="text-2xl flex-shrink-0">✨</div>
+        <p class="text-base text-gray-700 leading-relaxed flex-1">
+          {{ tip }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Start Playing CTA -->
+  <div class="max-w-5xl mx-auto text-center mb-8">
+    <div class="cta-box bg-gradient-to-r from-purple-600 via-pink-500 to-orange-500 rounded-3xl p-12 shadow-2xl transform hover:scale-105 transition-transform duration-300">
+      <h2 class="text-5xl font-black text-white mb-4">Ready to Play?</h2>
+      <p class="text-2xl text-white/90 mb-8">Gather your friends and have a blast!</p>
+      <button
+        routerLink="/"
+        class="px-12 py-6 bg-white rounded-2xl font-black text-2xl text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 hover:shadow-2xl transform hover:scale-110 transition-all duration-300">
+        Choose Another Game
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Not Found -->
+<div *ngIf="!game" class="min-h-screen flex items-center justify-center p-8">
+  <div class="text-center">
+    <div class="text-9xl mb-6">😕</div>
+    <h1 class="text-5xl font-black text-white mb-6">Game Not Found</h1>
+    <button
+      routerLink="/"
+      class="px-8 py-4 bg-white rounded-2xl font-bold text-xl hover:shadow-2xl transform hover:scale-110 transition-all duration-300">
+      Back to Games
+    </button>
+  </div>
+</div>

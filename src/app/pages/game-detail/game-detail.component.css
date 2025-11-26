@@ -1,0 +1,12 @@
+@keyframes pulseSlow {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+.cta-box {
+  animation: pulseSlow 3s ease-in-out infinite;
+}
