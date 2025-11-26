@@ -94,7 +94,7 @@ The app is designed to be served at `games.berjis.tech` (replacing the previous 
 
 ```bash
 yarn build
-# Output: dist/party-games/
+# Output: dist/games/
 ```
 
 ### Docker Deployment
@@ -102,8 +102,8 @@ yarn build
 The included Dockerfile and nginx.conf are pre-configured:
 
 ```bash
-docker build -t party-games .
-docker run -p 80:80 party-games
+docker build -t games .
+docker run -p 80:80 games
 ```
 
 ## 🔧 Configuration

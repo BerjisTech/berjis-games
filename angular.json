@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "party-games": {
+    "games": {
       "projectType": "application",
       "root": "",
       "sourceRoot": "src",
@@ -12,7 +12,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/party-games",
+            "outputPath": "dist/games",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -55,8 +55,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
-            "production": { "buildTarget": "party-games:build:production" },
-            "development": { "buildTarget": "party-games:build:development" }
+            "production": { "buildTarget": "games:build:production" },
+            "development": { "buildTarget": "games:build:development" }
           },
           "defaultConfiguration": "development"
         }
