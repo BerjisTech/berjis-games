@@ -504,6 +504,94 @@ ON CONFLICT (code) DO NOTHING;`)
 		return c.JSON(fiber.Map{"success": true, "data": rows})
 	})
 
+	// ── Leaderboard ─────────────────────────────────────────
+
+	// Player leaderboard (top contributors)
+	app.Get("/v1/leaderboard/players", func(c *fiber.Ctx) error {
+		if opts.DB == nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"success": false})
+		}
+		limitStr := c.Query("limit", "50")
+		limit, _ := strconv.Atoi(limitStr)
+		if limit <= 0 || limit > 200 {
+			limit = 50
+		}
+		type PlayerRank struct {
+			UserID    string `db:"user_id" json:"userId"`
+			Score     int64  `db:"contribution_score" json:"score"`
+			RankTitle *string `db:"rank_title" json:"rankTitle"`
+			Country   *string `db:"country_name" json:"country,omitempty"`
+			Rank      int    `json:"rank"`
+		}
+		rows := []PlayerRank{}
+		if err := opts.DB.Select(&rows,
+			`SELECT p.user_id, p.contribution_score, p.rank_title, c.name AS country_name
+			 FROM player_profiles p
+			 LEFT JOIN countries c ON c.id = p.country_id
+			 ORDER BY p.contribution_score DESC
+			 LIMIT $1`, limit); err != nil {
+			return c.Status(500).JSON(fiber.Map{"success": false, "message": err.Error()})
+		}
+		for i := range rows {
+			rows[i].Rank = i + 1
+		}
+		return c.JSON(fiber.Map{"success": true, "data": rows})
+	})
+
+	// Country leaderboard (aggregate scores)
+	app.Get("/v1/leaderboard/countries", func(c *fiber.Ctx) error {
+		if opts.DB == nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"success": false})
+		}
+		type CountryRank struct {
+			CountryID   string `db:"country_id" json:"countryId"`
+			CountryName string `db:"name" json:"name"`
+			TotalScore  int64  `db:"total_score" json:"totalScore"`
+			PlayerCount int    `db:"player_count" json:"playerCount"`
+			Rank        int    `json:"rank"`
+		}
+		rows := []CountryRank{}
+		if err := opts.DB.Select(&rows,
+			`SELECT c.id AS country_id, c.name, COALESCE(SUM(p.contribution_score),0) AS total_score, COUNT(p.user_id) AS player_count
+			 FROM countries c
+			 LEFT JOIN player_profiles p ON p.country_id = c.id
+			 GROUP BY c.id, c.name
+			 HAVING COUNT(p.user_id) > 0
+			 ORDER BY total_score DESC
+			 LIMIT 100`); err != nil {
+			return c.Status(500).JSON(fiber.Map{"success": false, "message": err.Error()})
+		}
+		for i := range rows {
+			rows[i].Rank = i + 1
+		}
+		return c.JSON(fiber.Map{"success": true, "data": rows})
+	})
+
+	// My ranking
+	app.Get("/v1/leaderboard/me", func(c *fiber.Ctx) error {
+		if opts.DB == nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"success": false})
+		}
+		uid, err := getUserID(c)
+		if err != nil {
+			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"success": false})
+		}
+		type MyRank struct {
+			Score     int64   `db:"contribution_score" json:"score"`
+			RankTitle *string `db:"rank_title" json:"rankTitle"`
+			Position  int     `db:"position" json:"position"`
+		}
+		var rank MyRank
+		err = opts.DB.QueryRowx(
+			`SELECT contribution_score, rank_title,
+			  (SELECT COUNT(*)+1 FROM player_profiles WHERE contribution_score > pp.contribution_score) AS position
+			 FROM player_profiles pp WHERE user_id=$1`, uid).StructScan(&rank)
+		if err != nil {
+			return c.JSON(fiber.Map{"success": true, "data": nil})
+		}
+		return c.JSON(fiber.Map{"success": true, "data": rank})
+	})
+
 	return app
 }
 

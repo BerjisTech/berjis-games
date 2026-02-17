@@ -1,0 +1,86 @@
+<div class="min-h-screen px-4 py-12 text-white">
+  <div class="mx-auto max-w-3xl space-y-8">
+    <!-- Header -->
+    <div class="text-center">
+      <a routerLink="/" class="text-sm text-white/60 hover:text-white/80 transition">&larr; Back to games</a>
+      <h1 class="mt-4 text-4xl font-bold tracking-tight">Leaderboard</h1>
+      <p class="mt-2 text-white/60">Top contributors across the realm</p>
+    </div>
+
+    <!-- My rank card -->
+    <div *ngIf="myRank() as me" class="rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 p-6">
+      <p class="text-xs font-semibold uppercase tracking-wide text-white/50">Your ranking</p>
+      <div class="mt-2 flex items-center justify-between">
+        <div>
+          <span class="text-3xl font-bold">{{ medalFor(me.position) }}</span>
+          <span class="ml-3 text-lg text-white/80">{{ me.score | number }} points</span>
+        </div>
+        <span *ngIf="me.rankTitle" class="rounded-full bg-white/20 px-3 py-1 text-sm font-semibold">{{ me.rankTitle }}</span>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="flex gap-2">
+      <button (click)="setTab('players')"
+        class="rounded-full px-5 py-2 text-sm font-semibold transition"
+        [ngClass]="tab() === 'players' ? 'bg-white text-purple-700' : 'bg-white/10 text-white'">
+        Players
+      </button>
+      <button (click)="setTab('countries')"
+        class="rounded-full px-5 py-2 text-sm font-semibold transition"
+        [ngClass]="tab() === 'countries' ? 'bg-white text-purple-700' : 'bg-white/10 text-white'">
+        Countries
+      </button>
+    </div>
+
+    <!-- Players table -->
+    <div *ngIf="tab() === 'players'" class="rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 overflow-hidden">
+      <div *ngIf="loading()" class="p-8 text-center text-white/50">Loading rankings...</div>
+      <table *ngIf="!loading() && players().length" class="w-full text-left text-sm">
+        <thead class="border-b border-white/10 text-xs uppercase tracking-wide text-white/50">
+          <tr>
+            <th class="px-4 py-3 w-16">Rank</th>
+            <th class="px-4 py-3">Player</th>
+            <th class="px-4 py-3">Country</th>
+            <th class="px-4 py-3 text-right">Score</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-white/5">
+          <tr *ngFor="let p of players()" class="hover:bg-white/5 transition">
+            <td class="px-4 py-3 font-bold text-lg">{{ medalFor(p.rank) }}</td>
+            <td class="px-4 py-3">
+              <span class="font-medium">{{ p.userId | slice:0:12 }}</span>
+              <span *ngIf="p.rankTitle" class="ml-2 rounded-full bg-white/10 px-2 py-0.5 text-xs">{{ p.rankTitle }}</span>
+            </td>
+            <td class="px-4 py-3 text-white/60">{{ p.country || '—' }}</td>
+            <td class="px-4 py-3 text-right font-semibold">{{ p.score | number }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <p *ngIf="!loading() && !players().length" class="p-8 text-center text-white/50">No players ranked yet.</p>
+    </div>
+
+    <!-- Countries table -->
+    <div *ngIf="tab() === 'countries'" class="rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 overflow-hidden">
+      <table *ngIf="countries().length" class="w-full text-left text-sm">
+        <thead class="border-b border-white/10 text-xs uppercase tracking-wide text-white/50">
+          <tr>
+            <th class="px-4 py-3 w-16">Rank</th>
+            <th class="px-4 py-3">Country</th>
+            <th class="px-4 py-3 text-right">Players</th>
+            <th class="px-4 py-3 text-right">Total Score</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-white/5">
+          <tr *ngFor="let c of countries()" class="hover:bg-white/5 transition">
+            <td class="px-4 py-3 font-bold text-lg">{{ medalFor(c.rank) }}</td>
+            <td class="px-4 py-3 font-medium">{{ c.name }}</td>
+            <td class="px-4 py-3 text-right text-white/60">{{ c.playerCount }}</td>
+            <td class="px-4 py-3 text-right font-semibold">{{ c.totalScore | number }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <p *ngIf="!countries().length" class="p-8 text-center text-white/50">No country rankings yet.</p>
+    </div>
+  </div>
+</div>

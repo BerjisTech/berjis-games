@@ -10,6 +10,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/game-detail/game-detail.component').then(m => m.GameDetailComponent)
   },
   {
+    path: 'leaderboard',
+    loadComponent: () => import('./pages/leaderboard/leaderboard.component').then(m => m.LeaderboardComponent)
+  },
+  {
     path: '**',
     redirectTo: ''
   }
